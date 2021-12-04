@@ -1,0 +1,182 @@
+#include <stdio.h>
+#include<string.h>
+#define n 2
+struct player
+{
+  char name[20],country[20];
+  int age,category,average,wickets;
+};
+//accept function
+void accept(struct player p[n])
+{  int k=0;
+   for(int i=0;i<n;i++)
+   {
+     printf("\nName of the player:");
+     scanf("%s",p[i].name);
+     printf("Age:");
+     scanf("%d",&p[i].age);
+     printf("Country:");
+     scanf("%s",p[i].country);
+     printf("Player Category:\n 1.Batsman 2.Bowler 3.Wicket-keeper 4.All-rounder\n");
+     scanf("%d",&p[i].category);
+     printf("Batting score average:");
+     scanf("%d",&p[i].average);
+     printf("Wickets taken:");
+     scanf("%d",&p[i].wickets);      }
+     
+    }
+//display function
+void display(struct player p[n])
+{ printf("\n\t\t\t\t\t*******Data********\n");
+  printf("\nName     Age  Country  Category Bat.score Wickets\n");
+  for(int j=0;j<n;j++)
+  { 
+   printf("%s",p[j].name);
+   printf("\t%d\t",p[j].age);
+   printf("%s",p[j].country);
+   if(p[j].category==1)
+    { printf("\tBatsman");}
+   if(p[j].category==2)
+    { printf("\tBowler"); }
+   if(p[j].category==3)
+    { printf("\tW.keeper"); }
+   if(p[j].category==4)
+    { printf("\tAll-rounder"); }
+   printf("\t\t%d\t\t",p[j].average);
+   printf("\t%d",p[j].wickets);
+   printf("\n");
+  }
+}
+//sorting function
+// 0  1 2 3 4 5
+// 6 |4 7 2 1 9
+int insertsort(struct player a[],int m)
+{
+  int num,j;
+  
+  for(int i=1;i<=m-1;i++)
+  { num=a[i].average;
+    j=i-1;
+    while(a[j].average<num && j>=0)
+    {
+      a[j+1].average=a[j].average;
+      strcpy(a[j+1].name,a[j].name);
+      j--;
+    }
+    a[j+1].average=num;
+    strcpy(a[j+1].name,a[i].name);
+  }
+  for(int i=0;i<m;i++)
+  {
+    printf("\n%s\t",a[i].name);
+    printf("%d\n",a[i].average);
+  }
+
+  return 0;
+}
+//max
+int max(struct player p[],int m,int k)
+{
+  int max;
+  char max_name[20];
+  if(k==1)
+  { max=p[0].average;
+    for(int i=0;i<m;i++)
+    {
+      if(p[i].average>max)
+      { max=p[i].average;
+        strcpy(max_name,p[i].name);
+      }
+    }
+    printf("\nHighest batting score average:\n %s %d",max_name,max);
+  }
+  else
+  { max=p[0].wickets;
+    for(int i=0;i<m;i++)
+    {
+      if(p[i].wickets>max)
+      { max=p[i].wickets;
+        strcpy(max_name,p[i].name);
+      }
+    }
+    printf("\nHighest number of wickets:\n %s %d",max_name,max);
+  }
+  return 0;
+}
+
+int main()
+{ int data,x=0,y=1;
+  char nation[20];
+  char play[20];
+  struct player p[n];
+  accept(p);
+  display(p);
+  while(y==1)
+  { printf("\nEnter the data you require:\n1.Number of batsman from a particular country\n2.Number of bowler from a particular country\n3.Sorted list of average batting score of batsmen \n4.Batsman with highest average score\n5.Bowler with maximum number of wickets\n6.Display some players information:\n");
+  scanf("%d",&data);
+  switch(data)
+  {
+    case 1: printf("\nEnter the country:");
+            scanf("%s",nation);
+            x=0;
+            printf("\nBatsmen from %s:\n",nation);
+            for(int i=0;i<n;i++)
+            {
+              if(strcmp(nation,p[i].country)==0 && p[i].category==1 )
+               { printf("%s\n",p[i].name);
+                 x++;
+               }
+            }
+             printf("\nTotal number of Batsmen from %s: %d\n",nation,x);
+             break;
+
+   case 2:  printf("\nEnter the country:");
+            scanf("%s",nation);
+            x=0;
+            printf("\nBowlers from %s:\n",nation);
+            for(int i=0;i<n;i++)
+            {
+              if(strcmp(nation,p[i].country)==0 && p[i].category==2 )
+               { printf("%s\n",p[i].name);
+                 x++;
+               }
+            }
+             printf("\nTotal number of bowlers from %s: %d",nation,x);
+             break;
+  case 3:  insertsort(p,n);
+           break;
+  case 4:  max(p,n,1);
+           break;
+  case 5:  max(p,n,2);
+  case 6:  printf("\nWhich player's information do you require:\n") ;
+           scanf("%s",play);
+           
+           for(int k=0;k<n;k++)
+           { x=strcmp(play,p[k].name);
+             if(x==0)
+             { 
+               printf("Name     Age  Country  Category Bat.score Wickets\n");
+               printf("%s",p[k].name);
+               printf("\t%d\t",p[k].age);
+               printf("%s",p[k].country);
+               if(p[k].category==1)
+                { printf("\tBatsman");}
+               if(p[k].category==2)
+                { printf("\tBowler"); }
+               if(p[k].category==3)
+                { printf("\tWicket-keeper"); }
+               if(p[k].category==4)
+                { printf("\tAll-rounder"); }
+                  printf("\t\t%d\t\t",p[k].average);
+                  printf("%d",p[k].wickets);
+                  printf("\n");
+             }
+           }
+           break;
+  }
+  printf("\nDo you require data any other data?(1/0):\n");
+  scanf("%d",&y);
+  }
+  return 0;
+ 
+}
