@@ -1,0 +1,139 @@
+#include <stdio.h>
+#include <string.h>
+struct stud   //
+{
+  int roll;
+  char name[20];
+  char div;
+  char add[50];
+};
+void accept(struct stud k[20],int n) ///
+{
+  printf("Enter details as Roll,Name,Div,Address respectively:\n");
+   for(int i=0;i<n;i++)
+   {
+     scanf("%d %s %c %s",&k[i].roll,k[i].name,&k[i].div,k[i].add);     //
+   }
+}
+void write(struct stud k[20],int n) //
+{
+  FILE *fp;
+  fp=fopen("eng.txt","a");
+  
+  for(int i=0;i<n;i++)
+  {
+  if(fp==NULL)
+  printf("error");
+  else
+  {
+    fprintf(fp,"%d %s %c %s\n",k[i].roll,k[i].name,k[i].div,k[i].add);  //
+  }
+  }fclose(fp);
+}
+void display(int n)
+{
+  struct stud s[20];   //
+    FILE *fp;
+    
+    fp=fopen("eng.txt","r");
+    if(fp==NULL)
+       printf("\nError.");
+    else{
+       for(int i=0;i<n;i++)
+            {  
+      fscanf(fp,"%d %s %c %s",&s[i].roll,s[i].name,&s[i].div,s[i].add);  //
+ printf("\nDetails of Student %d are \n Roll no:%d\n Name:%s\n Division: %c \n Address:%s\n",i+1,s[i].roll,s[i].name,s[i].div,s[i].add);  //
+            }
+    fclose(fp);
+}
+}
+void delete()
+{
+    FILE *datar = fopen("eng.txt", "r");
+    int count = 0;
+    char c = getc(datar);
+    struct stud s[20];   ////
+    while (c != EOF)
+    {
+        if (c == '\n')
+            count++;
+        c = getc(datar);
+    }
+    rewind(datar);
+    int id;
+    printf("\nEnter the roll number to be deleted:");
+    scanf("%d", &id);
+    int i = 0;
+    for (; i < count; i++)
+    {
+        fscanf(datar,"%d %s %c %s",&s[i].roll,s[i].name,&s[i].div,s[i].add);   ////
+    }
+    FILE *del = fopen("eng.txt", "w");
+    for (int i = 0; i < count; i++)
+    {
+        if (s[i].roll == id)                                                ///
+            continue;
+        fprintf(del,"%d %s %c %s\n",s[i].roll,s[i].name,s[i].div,s[i].add);  ///
+        fputc('\n', del);
+    }
+    fclose(datar);
+    fclose(del);
+}
+void sandd(int r,int n){
+  FILE *fp;
+  int count;
+  struct stud t[20];           ///
+   fp=fopen("eng.txt","r");
+           if(fp==NULL)
+       printf("\nError.");
+    else{
+       for(int i=0;i<n;i++)
+            {  
+      fscanf(fp,"%d %s %c %s",&t[i].roll,t[i].name,&t[i].div,t[i].add);    ///
+      if(t[i].roll==r){
+        count=1;
+        printf("\nDetails of student are \n roll no:%d\n name:%s\n division: %c \n address:%s",t[i].roll,t[i].name,t[i].div,t[i].add);                    ////
+        break;
+        printf("Data deleted!");
+      }
+    }
+    if(count !=1){
+      printf("Given roll number does not exists\n");
+    } 
+    }
+}
+int main(void) {
+  struct stud k[20];                 ///
+  int n,ch;
+  int rn;
+
+  printf("\nEnter the total number of students:");
+  scanf("%d",&n);
+  
+  while(ch!=6){
+    t:
+      printf("\nEnter the respective operation number: \n1.Accept the details\n2.Write in file\n3.Read and display data from file\n4.Delete a record\n5.Search and display\n6.Exit\n");
+      scanf("%d",&ch);
+      switch(ch){
+        case 1:
+          accept(k,n);             //
+          break;
+        case 2:
+          write(k,n);          //
+          break;
+        case 3:
+          display(n);
+        break;
+        case 4:
+            delete();
+        break;
+        case 5:
+        
+        printf("\nEnter the roll no you want to search for:\n");
+        scanf("%d",&rn);
+        sandd(rn,n);
+        break;
+    }
+  }
+  return 0;
+}
